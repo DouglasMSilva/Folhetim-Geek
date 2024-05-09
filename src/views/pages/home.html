@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="noticia.png" type="image/x-icon">
+    <title>Página Inicial - Folhetim Geek</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos da navegação */
+        body {
+            background-color: #343434;
+        }
+
+        nav {
+            height: 8vh;
+            background-color: dodgerblue;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        nav .logo {
+            text-decoration: none;
+            font-size: 30px;
+            margin-right: 600px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav li {
+            list-style: none;
+            margin-left: 30px;
+        }
+
+        nav li a {
+            text-decoration: none;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        nav li a:hover {
+            color: navy;
+            transition: 1s;
+        }
+
+        /* Estilos dos cards */
+        .noticias {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 10px;
+            background-image: linear-gradient(45deg, #aaa, #eee);
+            background-repeat: no-repeat;
+            width: 100%;
+            padding: 10px;
+            position: relative;
+            flex-wrap: nowrap;
+        }
+
+        .cards-container {
+            overflow: hidden;
+        }
+
+        .cards {
+            display: flex;
+            gap: 50px;
+            transition: transform 0.5s ease;
+        }
+
+        .card, .subConteudo {
+            width: 400px;
+            height: 500px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+
+        .card img, .subConteudo img {
+            width: 100%;
+            height: 50%;
+           
+            border-radius: 10px;
+        }
+
+        /* Estilos das setas de navegação */
+        #prevBtn,
+        #nextBtn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+            z-index: 2;
+        }
+
+        #prevBtn {
+            left: 20px;
+        }
+
+        #nextBtn {
+            right: 20px;
+        }
+
+        /* Estilos dos títulos */
+        .titulos {
+            color: dodgerblue;
+            margin-top: 20px;
+            position: relative;
+            width: 100%;
+            height: 5vh;
+            background: none;
+        }
+
+        .titulos h2 {
+            text-transform: uppercase;
+            margin-left: 15%;
+        }
+
+        /* Estilos das informações adicionais */
+        .infos {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .infos h2 {
+            padding: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: dodgerblue;
+            text-align: left;
+        }
+
+        .quiz {
+            width: 100%;
+            height: 30%;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            padding: 20px;
+        }
+
+        .quiz #btnVote {
+            cursor: pointer;
+            color: #fff;
+            background: dodgerblue;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px #ccc;
+            width: 50px;
+            height: 30px;
+        }
+
+        .quiz #btnVote:hover {
+            background: royalblue;
+            transition: 0.5s;
+        }
+
+        .radios {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .r {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card p, .subConteudo p {
+            font-size: 15px;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .card h4, .subConteudo h4 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+        }
+
+        .card a, .subConteudo a {
+            text-decoration: none;
+            color: navy;
+            cursor: pointer;
+        }
+
+        /* Esconde os cards que não estão no slide atual */
+        .cards:not(.active) {
+            display: none;
+        }
+
+
+        /*Modais*/
+        /* Estilos para modais */
+        .modal {
+          display: none; /* Oculta por padrão */
+          position: fixed; /* Permanece fixo na tela */
+          z-index: 1; /* Posiciona o modal na frente de outros elementos */
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto; /* Adiciona rolagem quando necessário */
+          background-color: rgba(0,0,0,0.5); /* Fundo escuro semitransparente */
+        }
+
+        .modal-content {
+          background-color: #fefefe;
+          margin: 15% auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 300px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border-radius: 10px;
+        }
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+        }
+
+        .close {
+          color: #aaa;
+          font-size: 28px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<nav>
+    <ul>
+        <a class="logo" href="#">FOLHETIM GEEK</a>
+        <li><a href="#">Perfil</a></li>
+        <li><a href="#">Entretenimento</a></li>
+        <li><a href="#">Calendário de Eventos</a></li>
+    </ul>
+</nav>
+
+<section>
+    <div class="titulos">
+        <h2>Fatos Curiosos</h2>
+    </div>
+
+    <div class="noticias">
+        <button id="prevBtn" onclick="navigate('prev')">←</button>
+
+        <div class="cards-container">
+            <div class="cards active">
+                <!-- Card 1 -->
+                <div class="card">
+                    <h4>Dragon Ball irá completar 40 anos</h4>
+                    <img src="Dragon Ball.jpg">
+                    <p><b>Dragon Ball</b> é um mangá que foi lançado no ano de 1984 pelo mangaká <b>Akira Toriyama</b>, que no dia 1 de Março de 2024 faleceu aos 68 anos. Neste mesmo ano estará completando 40 anos de existência. A franquia conta a história de <a id="goku" onclick="openModal('modal1')">Son Goku</a>, um garoto com cauda de macaco que vive nas montanhas e pratica artes marciais que sairá em busca das Esferas do Dragão, que são objetos que quando reunidos, invocam um dragão que pode realizar o desejo daquele que o invocar. <a href="#">Ver mais</a></p>
+                </div>
+                <!-- Card 2 -->
+                <div class="card">
+                    <h4>Anime com 11 centenas de episódios</h4>
+                    <img src="One Piece.jpg">
+                    <p>Conhecido popularmente no Brasil pela alcunha de "O anime do Pirata que estica", <b>One Piece</b> atingiu 1100 episódios. A franquia foi criada pelo mangaká <b>Eiichiro Oda</b> teve seu lançamento no ano de 1997 com o mangá e anos mais tarde, em 1999 ganhou sua versão anime produzida pela <b>Toei Animation</b>. One Piece conta a história de <a id="luffy" onclick="openModal('modal2')">Monkey D. Luffy</a>, um jovem que partiu para o mar em busca de montar uma tripulação e principalmente do seu maior sonho que é se tornar o Rei dos Piratas. <a href="#">Clique aqui</a> para mais sobre a franquia.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="card">
+                    <h4>Uma franquia de 25 anos, Dattebayo!</h4>
+                    <img src="Uzumaki Naruto.jpg">
+                    <p>O Naruto pode ser um pouco duro às vezes, mas mesmo assim conquistou e vem conquistando uma legião de fãs com o seu jeito ninja. Esse legado está prestes a completar 25 anos. A história do ninja número 1, hiperativo e cabeça oca deu-se início no ano de 1999 através do mangá produzido por <b>Masashi Kishimoto</b> e com o grande sucesso de vendas, teve seu anime produzido no ano de 2002. A animação contou com 220 episódios com duração até o ano de 2007. <a href="#">Ver mais</a></p>
+                </div>
+            </div>
+
+            <!-- Segunda seção de notícias -->
+            <div class="cards">
+                <!-- Card 4 -->
+                <div class="card">
+                    <h4>Digimon Adventure</h4>
+                    <img src="Digimon Adventure.png">
+                    <p><a href="#">Ver mais</a></p>
+                </div>
+                <!-- Card 5 -->
+                <div class="card">
+                    <h4>Jogos de Luta live action</h4>
+                    <img src="SVC Chaos.jpg">
+                    <p><a href="#">Ver mais</a></p>
+                </div>
+                <!-- Card 6 -->
+                <div class="card">
+                    <h4>Esportes nos Animes</h4>
+                    <img src="Anime Sports.jpg">
+                    <p><a href="#">Ver mais</a></p>
+                </div>
+            </div>
+        </div>
+
+        <button id="nextBtn" onclick="navigate('next')">→</button>
+    </div>
+</section>
+
+<section>
+    <div class="titulos">
+        <h2>Principais Notícias</h2>
+    </div>
+
+    <div class="noticias">
+        <div class="conteudo">
+            <div class="subConteudo" id="sub">
+                <h4>Invencível AAA</h4>
+                <img id="invincible" src="Invincible.jpg">
+                <p>Uma campanha de financiamento coletivo foi lançada com o intuito de produzir um jogo de <b>Invencível</b>. A iniciativa surgiu por parte da <b>Skybound Entertainment</b> cuja ideia é criar um jogo AAA independente, sendo assim, nao recorrendo a estúdios ou desenvolvedoras diferentes.</p>
+            </div>
+        </div>
+
+        <div class="conteudo">
+            <div class="subConteudo" id="sub">
+                <h4>Marinheiro Popeye</h4>
+                <img id="popeye" src="Popeye.jpg">
+                <p>O marinheiro mais amado dos desenhos que se fortalece ao comer uma lata de espinafre, ganhará um novo filme Live Action. No entanto, Popeye já teve um filme neste formato. O personagem foi vivido pelo ator <b>Robin Williams</b> no ano de 1980.</p>
+
+                <p>Após mais de 40 anos, a revista <b>Variety</b> anunciou o projeto já está em desenvolvimento e conta com a colaboração do roteirista <b>Michael Caleo</b>, que trabalhou na série “Família Soprano” (1999-2007).</p>
+            </div>
+        </div>
+
+        <div class="conteudo">
+            <div class="subConteudo" id="sub">
+                <h4>Shadow Wick</h4>
+                <img id="shadow" src="keanu-shadow.jpg">
+                <p><b>Sonic</b> é um game de sucesso e a principal franquia da <b>SEGA</b> que conta a história de um ouriço azul que corre em alta velocidade e sai rolando atrás de anéis dourados, e sem dúvidas uma franquia de muito sucesso. Devido ao grande sucesso conta com dois filmes no formato live action, com o terceiro em produção. A franquia conta com personagens icônicos, como <b>Sonic</b>, <b>Tails</b>, <b>Knuckles</b> e <b>Shadow</b>, que já está confirmado no terceiro longa. O personagem terá sua dublagem por parte de nada mais, nada menos que o ilustre renomado ator <b>Keanu Reeves</b>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="infos">
+    <h2>Quiz:</h2>
+    <div class="quiz">
+        <h3>Qual seu Pokémon inicial favorito?</h3>
+        <div class="radios">
+            <div class="r">
+                <img src="1.png">
+                <input type="radio" name="option" id="radio-input" value="Bulbasaur">Bulbasaur
+            </div>
+            <div class="r">
+                <img src="4.png">
+                <input type="radio" name="option" id="radio-input" value="Charmander">Charmander
+            </div>
+            <div class="r">
+                <img src="7.png">
+                <input type="radio" name="option" id="radio-input" value="Squirtle">Squirtle
+            </div>
+        </div>
+        <button id="btnVote" onclick="votar()">Votar</button>
+        <span></span>
+    </div>
+</div>
+
+
+<!-- Modal 1 -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+        <h3 style=" margin-left: 30%;">Son Goku</h3>
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+    </div>
+    <img style="width: 180px; height: 220px;" src="goku_criança.png">
+  </div>
+</div>
+
+<!-- Modal 2 -->
+<div id="modal2" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+        <h3 style=" margin-left: 20%;">Monkey D. Luffy</h3>
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+    </div>
+    <img style="width: 230px; height: 230px;" src="luffy.png">
+  </div>
+</div>
+
+
+    
+
+
+
+<script>
+    // JavaScript
+
+    let currentSlide = 0;
+
+    function navigate(direction) {
+        const slides = document.querySelectorAll('.cards');
+        const totalSlides = slides.length;
+
+        slides[currentSlide].classList.remove('active');
+
+        if (direction === 'prev') {
+            currentSlide--;
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+        } else if (direction === 'next') {
+            currentSlide++;
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+        }
+
+        slides[currentSlide].classList.add('active');
+    }
+
+    function votar() {
+        const selectedOption = document.querySelector('input[name="option"]:checked');
+
+        if (selectedOption) {
+            const voteText = document.querySelector(".quiz span");
+            voteText.textContent = `Você votou em: ${selectedOption.value}`;
+        } else {
+            const voteText = document.querySelector(".quiz span");
+            voteText.textContent = "Selecione uma opção para votar";
+        }
+    }
+
+
+    // JavaScript para manipulação de modais
+    function openModal(modalId) {
+      let modal = document.getElementById(modalId);
+      modal.style.display = "block"; // Exibe o modal
+    }
+
+    function closeModal(modalId) {
+      let modal = document.getElementById(modalId);
+      modal.style.display = "none"; // Oculta o modal
+    }
+
+    // Fecha o modal quando o usuário clicar fora dele
+    window.onclick = function(event) {
+      let modals = document.getElementsByClassName('modal');
+      for (let i = 0; i < modals.length; i++) {
+        if (event.target == modals[i]) {
+          modals[i].style.display = "none";
+        }
+      }
+    }
+
+
+</script>
+</body>
+</html>

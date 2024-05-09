@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="noticia.png" type="image/x-icon" />
+    <title>Cadastre-se</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../../public/style/style.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <h3>Cadastre-se</h3>
+        <div class="form-inputs">
+          <label>Nome:</label>
+          <input type="text" id="nameInput" />
+          <span class="spans" id="nameSpan"></span>
+        </div>
+
+        <div class="form-inputs">
+          <label>E-mail:</label>
+          <input type="email" id="emailInput" />
+          <span class="spans" id="emailSpan"></span>
+        </div>
+
+        <div class="form-inputs">
+          <label>Senha:</label>
+          <input type="password" id="passwordInput" />
+          <span class="spans" id="passwordSpan"></span>
+        </div>
+
+        <div class="form-inputs">
+          <label>Repetir Senha:</label>
+          <input type="password" id="confirmPasswordInput" />
+          <span class="spans" id="confirmPasswordSpan"></span>
+        </div>
+
+        <div class="form-inputs" id="radios">
+          <label>Sexo:</label>
+          <input
+            type="radio"
+            name="option"
+            oninput="selectGender()"
+            value="masculino"
+            checked
+          />Masculino
+          <input
+            type="radio"
+            name="option"
+            oninput="selectGender()"
+            value="feminino"
+          />Feminino
+          <span class="spans"></span>
+        </div>
+
+        <button>Cadastrar</button>
+      </form>
+    </div>
+
+    <script src="../../assets/js/cadastro.js"></script>
+  </body>
+</html>

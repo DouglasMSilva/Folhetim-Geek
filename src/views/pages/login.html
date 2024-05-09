@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="noticia.png" type="image/x-icon">
+	<title>Login</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+
+		body {
+			background-color: #343434;
+		}
+
+		.container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 300px;
+			height: 300px;
+			background-color: #fff;
+			gap: 5px;
+			border-radius: 10px;
+		}
+
+		button { 
+		cursor: pointer;
+		background-color: dodgerblue;
+		box-shadow: 1px solid #aaa;
+		border: none;
+		color: #fff;
+		padding: 10px;
+		border-radius: 5px;
+		text-align: center;
+		width: 70px;
+		}
+
+		button:hover {
+			background-color: royalblue;
+			transition: 1s;
+		}
+
+		form input {
+			width: 260px;
+			padding: 5px;
+			margin-top: 5px;
+		}
+		form input:hover {
+			border-color: dodgerblue;
+			transition: 1s;
+		}
+
+	</style>
+	</head>
+	<body>
+		<div class="container">					
+			<form>
+				<h3>Login</h3>
+				<input type="email" placeholder="E-mail" required="required">
+				<input type="password" placeholder="Senha" required="required">
+				<button>Login</button>
+				<p>Se não possui login, <a href="cadastro.html">cadastre-se</a>!</p>
+				<p style="display: flex; flex-direction: row; text-align: center; font-size: 12px; margin-top: -5px;">&copy;Folhetim Geek - Todos os direitos reservados</p>
+			</form>
+		</div>
+	</body>
+</html>

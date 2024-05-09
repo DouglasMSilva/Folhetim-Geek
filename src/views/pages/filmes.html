@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Testes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #fff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: navy;
+        }
+
+        img {
+            width: 250px;
+            height: 300px;
+            border: 1px solid #000;
+        }
+
+        .cards-container {
+            position: relative;
+            width: 600px; /* Ajusta o tamanho para caber 2 slides */
+            overflow-x: scroll; /* Permite a rolagem horizontal */
+            overflow-y: hidden; /* Oculta a rolagem vertical */
+            white-space: nowrap; /* Impede que os slides quebrem em várias linhas */
+        }
+
+        .cards {
+            display: inline-block; /* Coloca os slides lado a lado */
+            vertical-align: top; /* Alinha os slides ao topo */
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            background: #fff;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin-right: 20px; /* Adiciona margem entre os slides */
+        }
+
+        h4 {
+            color: #000;
+            text-align: center;
+        }
+
+        p {
+            color: #000;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .navigation-buttons {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: calc(100% - 20px);
+            padding: 0 10px;
+            z-index: 2;
+        }
+
+        .navigation-buttons button {
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        /* Exibe apenas o slide atual */
+        .cards:not(.active) {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Filmes de Animações</h1>
+
+    <div class="cards-container">
+        <div class="navigation-buttons">
+            <button id="prevBtn" class="cards" onclick="navigate('prev')">←</button>
+            <button id="nextBtn" class="cards" onclick="navigate('next')">→</button>
+        </div>
+
+        <div class="cards active">
+            <div class="card">
+                <h4>Dragon Ball Z</h4>
+                <img src="dragon-ball-z-coolers-revenge.jpg">
+                <p>Cooler, o irmão mais velho de Freeza chega na Terra buscando se vingar de Goku por tê-lo derrotado.</p>
+            </div>
+
+            <div class="card">
+                <h4>O Rei Leão</h4>
+                <img src="Lion_King.jpg">
+                <p>Um clássico da Disney que conta a história de Simba, que um dia virá a se tornar o Rei de todos os animais</p>
+            </div>
+
+            <div class="card">
+                <h4>Turbo Power Rangers</h4>
+                <img src="TPR.jpg">
+                <p>Longa que conta o início da série Power Rangers Turbo.</p>
+            </div>
+
+            <div class="card">
+                <h4>Pokémon - O filme</h4>
+                <img src="pokemon-o-filme.jpg">
+                <p>Primeiro longa da animação de Pokémon, que deixa claro que existem mais de 150 pokémons</p>
+            </div>
+
+            <div class="card">
+                <h4>Spirit, o Corcel Indomável</h4>
+                <img src="Spirit.jpeg">
+                <p>Um grande filme de sucesso da DreamWorks.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+
+        function navigate(direction) {
+            const slides = document.querySelectorAll('.cards');
+
+            // Remove a classe 'active' de todos os slides para ocultá-los
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            if (direction === 'prev') {
+                currentSlide--;
+                if (currentSlide < 0) {
+                    currentSlide = slides.length - 1;
+                }
+            } else if (direction === 'next') {
+                currentSlide++;
+                if (currentSlide >= slides.length) {
+                    currentSlide = 0;
+                }
+            }
+
+            // Adiciona a classe 'active' apenas ao slide atual
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Define o primeiro slide como ativo inicialmente
+        navigate('');
+    </script>
+
+</body>
+</html>

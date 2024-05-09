@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang = "pt-br">
+
+<head>
+
+	<meta charset = "UTF-8">
+
+	<title>Mudando a Cor</title>
+
+	<style>
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.radios {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.greenBox,.redBox {
+			width: 400px;
+			height: 400px;
+			display: none;
+		}
+
+		.greenBox {
+			background: green;
+		}
+
+		.redBox {
+			background: red;
+		}
+
+	</style>
+
+
+</head>
+
+
+<body>
+
+	<div class="container">
+		<div class="radios">
+			<input type="radio" name="option" value="verde" onclick="mudar()">Verde
+			<input type="radio" name="option" value="vermelho" onclick="mudar()">Vermelho
+		</div>
+		<div class="greenBox"></div>
+		<div class="redBox"></div>
+	</div>
+
+	<script>
+
+		function mudar() {
+			document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+			let option = document.querySelector('input[name="option"]:checked');
+			let greenBox = document.querySelector(".greenBox");
+			let redBox = document.querySelector(".redBox");
+			if(option.value === "verde") {
+				redBox.style.display = "none";
+				greenBox.style.display = "block";
+			} else if(option.value === "vermelho") {
+				redBox.style.display = "block";
+				greenBox.style.display = "none";
+			}
+		});
+		}
+
+	</script>
+
+
+</body>
+
+</html>
